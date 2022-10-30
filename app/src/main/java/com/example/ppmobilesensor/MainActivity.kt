@@ -12,8 +12,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.core.graphics.drawable.DrawableCompat
-import com.androidplot.xy.XYPlot
+import com.androidplot.xy.*
 import com.polar.sdk.api.PolarBleApi.DeviceStreamingFeature
+import android.graphics.Color
 import com.polar.sdk.api.model.*
 import com.polar.sdk.api.PolarBleApi
 import com.polar.sdk.api.PolarBleApiCallback
@@ -56,6 +57,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        var plot: XYPlot = findViewById(R.id.view_plot)
+        val seriesAzFormat = LineAndPointFormatter(Color.YELLOW, Color.GREEN, null, null )
+
+        val tVals = mutableListOf(0)
+        var t: Int = 0
+        val azVals = mutableListOf(0)
 
         Log.d(TAG, "version: " + PolarBleApiDefaultImpl.versionInfo())
         connectButton = findViewById(R.id.connect_button)
@@ -136,6 +144,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         movementButton.setOnClickListener {
+            plot.clear()
+            val seriesAz: XYSeries = SimpleXYSeries(tVals, azVals, "az")
+            plot.addSeries(seriesAz, seriesAzFormat)
+            plot.redraw()
+
             val isDisposed = movementDisposable?.isDisposed ?: true
             if (isDisposed) {
                 toggleButtonDown(movementButton, R.string.stop_movement_stream)
@@ -149,6 +162,10 @@ class MainActivity : AppCompatActivity() {
                             for (data in polarAccelerometerData.samples) {
                                 Log.d(TAG, "ACC    x: ${data.x} y:  ${data.y} z: ${data.z}")
                                 textViewAccX.text = data.x.toString()
+
+                                t += 4
+                                tVals.add(t)
+                                azVals.add(data.z)
                             }
                         },
                         { error: Throwable ->
