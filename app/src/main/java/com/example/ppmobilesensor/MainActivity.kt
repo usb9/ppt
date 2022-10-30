@@ -59,9 +59,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         var plot: XYPlot = findViewById(R.id.view_plot)
-        val seriesAzFormat = LineAndPointFormatter(Color.YELLOW, Color.GREEN, null, null )
+//        val seriesAzFormat = LineAndPointFormatter(Color.YELLOW, Color.GREEN, null, null )
+        val seriesAxFormat = LineAndPointFormatter(Color.GREEN, null, null, null )
+        val seriesAyFormat = LineAndPointFormatter(Color.RED, null, null, null )
+        val seriesAzFormat = LineAndPointFormatter(Color.BLUE, null, null, null )
 
         val tVals = mutableListOf(0)
+        val axVals = mutableListOf(0)
+        val ayVals = mutableListOf(0)
         val azVals = mutableListOf(0)
 
         Log.d(TAG, "version: " + PolarBleApiDefaultImpl.versionInfo())
@@ -144,7 +149,11 @@ class MainActivity : AppCompatActivity() {
 
         movementButton.setOnClickListener {
             plot.clear()
+            val seriesAx: XYSeries = SimpleXYSeries(tVals, axVals, "ax")
+            val seriesAy: XYSeries = SimpleXYSeries(tVals, ayVals, "ay")
             val seriesAz: XYSeries = SimpleXYSeries(tVals, azVals, "az")
+            plot.addSeries(seriesAx, seriesAxFormat)
+            plot.addSeries(seriesAy, seriesAyFormat)
             plot.addSeries(seriesAz, seriesAzFormat)
             plot.redraw()
 
@@ -158,6 +167,8 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 removeSlice(tVals, 1, tVals.size - 1)
+                removeSlice(axVals, 1, azVals.size - 1)
+                removeSlice(ayVals, 1, azVals.size - 1)
                 removeSlice(azVals, 1, azVals.size - 1)
 
                 toggleButtonDown(movementButton, R.string.stop_movement_stream)
@@ -174,6 +185,8 @@ class MainActivity : AppCompatActivity() {
 
                                 t += 4
                                 tVals.add(t)
+                                axVals.add(data.x)
+                                ayVals.add(data.y)
                                 azVals.add(data.z)
                             }
                         },
