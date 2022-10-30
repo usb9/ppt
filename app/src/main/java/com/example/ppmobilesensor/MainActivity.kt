@@ -62,7 +62,6 @@ class MainActivity : AppCompatActivity() {
         val seriesAzFormat = LineAndPointFormatter(Color.YELLOW, Color.GREEN, null, null )
 
         val tVals = mutableListOf(0)
-        var t: Int = 0
         val azVals = mutableListOf(0)
 
         Log.d(TAG, "version: " + PolarBleApiDefaultImpl.versionInfo())
@@ -151,6 +150,16 @@ class MainActivity : AppCompatActivity() {
 
             val isDisposed = movementDisposable?.isDisposed ?: true
             if (isDisposed) {
+                var t: Int = 0
+
+                fun <T> removeSlice(list: MutableList<T>, from: Int, end: Int) {
+                    for (i in from..end) {
+                        list.removeAt(1)
+                    }
+                }
+                removeSlice(tVals, 1, tVals.size - 1)
+                removeSlice(azVals, 1, azVals.size - 1)
+
                 toggleButtonDown(movementButton, R.string.stop_movement_stream)
                 movementDisposable = requestStreamSettings(deviceId, PolarBleApi.DeviceStreamingFeature.ACC)
                     .flatMap { settings: PolarSensorSetting ->
