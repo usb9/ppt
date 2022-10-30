@@ -9,4 +9,7 @@
     <string name="range">Range</string>
     <string name="channels">Channels</string>
     <string name="ok">OK</string>
+    <string name="title">Accelerations vs. Time</string>
+    <string name="range_title">Acc m^2/ms</string>
+    <string name="domain_title">Time /ms</string>
 </resources>

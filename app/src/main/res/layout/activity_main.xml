@@ -61,6 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/view_plot"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttons_container">
@@ -76,5 +77,33 @@
             tools:text="100" />
     </LinearLayout>
 
-    sensor_settings_dialog.xml
+    <com.androidplot.xy.XYPlot
+        android:id="@+id/view_plot"
+        style="@style/FullScreenGraph"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginTop="346dp"
+        app:backgroundColor="@color/colorAccent"
+        app:graphBackgroundColor="@color/colorAccent"
+        app:graphMarginBottom="20dp"
+        app:graphMarginLeft="24dp"
+        app:graphMarginRight="6dp"
+        app:graphMarginTop="20dp"
+        app:gridBackgroundColor="@color/colorAccent"
+        app:gridInsetLeft="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:lineLabels="left|bottom"
+        app:rangeTitle="@string/range_title"
+        app:rangeTitleTextColor="@android:color/black"
+        app:rangeTitleTextSize="12dp"
+        app:domainTitle="@string/domain_title"
+        app:domainTitleTextColor="@android:color/black"
+        app:domainTitleTextSize="12dp"
+        app:title="@string/title"
+        app:titleTextColor="@android:color/black"
+        app:titleTextSize="16dp"
+        app:renderMode="use_background_thread" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
