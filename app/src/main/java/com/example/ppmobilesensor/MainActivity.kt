@@ -148,15 +148,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         movementButton.setOnClickListener {
-            plot.clear()
-            val seriesAx: XYSeries = SimpleXYSeries(tVals, axVals, "ax")
-            val seriesAy: XYSeries = SimpleXYSeries(tVals, ayVals, "ay")
-            val seriesAz: XYSeries = SimpleXYSeries(tVals, azVals, "az")
-            plot.addSeries(seriesAx, seriesAxFormat)
-            plot.addSeries(seriesAy, seriesAyFormat)
-            plot.addSeries(seriesAz, seriesAzFormat)
-            plot.redraw()
-
             val isDisposed = movementDisposable?.isDisposed ?: true
             if (isDisposed) {
                 var t: Int = 0
@@ -200,6 +191,15 @@ class MainActivity : AppCompatActivity() {
                         }
                     )
             } else {
+                plot.clear()
+                val seriesAx: XYSeries = SimpleXYSeries(tVals, axVals, "ax")
+                val seriesAy: XYSeries = SimpleXYSeries(tVals, ayVals, "ay")
+                val seriesAz: XYSeries = SimpleXYSeries(tVals, azVals, "az")
+                plot.addSeries(seriesAx, seriesAxFormat)
+                plot.addSeries(seriesAy, seriesAyFormat)
+                plot.addSeries(seriesAz, seriesAzFormat)
+                plot.redraw()
+
                 toggleButtonUp(movementButton, R.string.start_movement_stream)
                 // NOTE dispose will stop streaming if it is "running"
                 movementDisposable?.dispose()
